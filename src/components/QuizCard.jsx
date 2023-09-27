@@ -1,6 +1,7 @@
 import React from 'react'
 
 const QuizCard = ({question,options,imgUrl}) => {
+  // console.log(options);
   return (
     <div className='bg-[#F5F6F7] w-[80%] mx-4 my-4 p-4 space-y-5 rounded-xl '>
       <div className='flex gap-2  '>
@@ -13,10 +14,13 @@ const QuizCard = ({question,options,imgUrl}) => {
       
      
       <ul className='text-[#A9A9B1] text-[10px] truncate list-disc pl-5'>
-        {options.map((option, index) => (
-          <li key={index}>{option}</li>
-        ))}
-      </ul>
+  {console.log(options)}
+  {console.log("My name is Dawood")}
+
+  {options.map((option, index) => (
+    <li key={index}>{option}</li>
+  ))}
+</ul>
     </div>
   )
 }
