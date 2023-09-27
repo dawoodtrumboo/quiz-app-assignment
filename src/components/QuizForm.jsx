@@ -12,6 +12,7 @@ const QuizForm = () => {
     const [selectedSubtopic, setSelectedSubtopic] = useState(''); // State for selected subtopic
      const [question, setQuestion] = useState('');
   
+  
     // Function to handle subject selection
     const handleSubjectChange = (subject) => {
       if (subject === 'Language') {
@@ -54,9 +55,15 @@ const QuizForm = () => {
     const deleteOption = (id) => {
       setOptions(options.filter((option) => option.id !== id));
     };
+    
+    const updateOption = (index, newValue) => {
+      const updatedOptions = [...options];
+      updatedOptions[index] = newValue;
+      setOptions(updatedOptions);
+    };
 
-
-    const handleSubmit = (e) => {
+    console.log(options)
+    const handleSubmit = async (e) => {
       e.preventDefault();
   
       // Create an object to represent the question and options
@@ -65,10 +72,31 @@ const QuizForm = () => {
         options,
       };
 
-      console.log(quizData);
-      setQuestion('');
-      setOptions([]);
+      try {
+        const response = await fetch('http://127.0.0.1:5000/api/save_quiz', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(quizData),
+        });
+    
+        if (response.ok) {
+          console.log('Quiz saved successfully');
+          // Clear form fields or handle as needed
+          setQuestion('');
+          setOptions([]);
+        } else {
+          console.error('Failed to save quiz');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
     }
+    
+
+    
+    
 
 
     // Styling for Language button and ... button
@@ -163,6 +191,7 @@ const QuizForm = () => {
             index={index}
             onDelete={() => deleteOption(option.id)} // Pass delete function
             value={option}
+            onOptionChange={updateOption}
           />
         ))
        }
